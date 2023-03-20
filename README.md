@@ -10,6 +10,8 @@ conda activate osce
 pip install -r requirements.txt
 ```
 
+Next, create a .env file and add your OpenAI API key as such (see .env.example for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+
 ## Usage
 
 Mac:
