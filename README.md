@@ -1,5 +1,14 @@
 # osce-gpt
 
+## Cloning the Repository
+
+To clone the repository, type in your command line/terminal:
+
+```
+git clone https://github.com/tig3r66/MedLLM.git
+cd osce-gpt
+```
+
 ## Installation
 
 Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
