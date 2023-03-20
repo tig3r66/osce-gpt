@@ -1,5 +1,7 @@
 # osce-gpt
 
+![alt text](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/streamlit_osce.png)
+
 ## Cloning the Repository
 
 To clone the repository, type in your command line/terminal:
@@ -41,7 +43,5 @@ python test.py
 ```bash
 streamlit run website.py
 ```
-
-![alt text](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/streamlit_osce.png)
 
 To practice with different clinical scenarios, change the `instructions` string in `test.py` or `website.py`.
