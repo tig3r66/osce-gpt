@@ -4,6 +4,7 @@ import whisper
 import pyttsx3
 from transformers import GPT2TokenizerFast
 import speech_recognition as sr
+import time
 
 import gtts
 from playsound import playsound
@@ -74,6 +75,25 @@ if __name__ == '__main__':
     st.title('OSCE-GPT')
     st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
     st.caption('By [Eddie Guo](https://tig3r66.github.io/)')
-    instructions = "You are a patient in a family medicine practice. Your name is Joanna. You are 35 years old female. You have a sore throat. You have a history of asthma and allergies. You are in for a general checkup to review your medications. You are currently on Advair and have well-controlled asthma. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
-    patient = Patient(instructions)
+
+    option = st.selectbox(
+        "Which clinical scenario would you like to practice with?",
+        ("Select one", "Asthma medications", "Chest pain"),
+    )
+
+    instructions = [
+        "You are a patient in a family medicine practice. Your name is Joanna. You are 35 year old female. You have a sore throat. You have a history of asthma and allergies. You are in for a general checkup to review your medications. You are currently on Advair and have well-controlled asthma. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers.",
+        "You are a patient at the emergency department. Your name is Emma. You are 68 year old female. You had crushing chest pain that radiated down your left arm. This occurred about an hour ago. You have diabetes and are obese. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
+        ]
+
+    while option == "Select one":
+        time.sleep(1)
+
+    if option == "Asthma medications":
+        prompt = instructions[0]
+    elif option == "Chest pain":
+        prompt = instructions[1]
+
+    st.write(f'You selected: {option.lower()}')
+    patient = Patient(prompt)
     patient.main()
