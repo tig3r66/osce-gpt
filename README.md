@@ -21,3 +21,5 @@ Windows:
 ```python
 python test.py
 ```
+
+To practice with different clinical scenarios, change the `instructions` string in line 74 in test.py.
