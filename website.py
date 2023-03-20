@@ -58,7 +58,7 @@ class Patient:
             self.tokens -= len(self.tokenizer(popped['content'])['input_ids'])
 
     def main(self):
-        st.write("Clinical scenario starting. You may begin speaking now.")
+        st.text("Clinical scenario initialized. You may begin speaking now.")
         while True:
             with sr.Microphone() as source:
                 source.pause_threshold = 0.8  # silence in seconds
@@ -71,6 +71,9 @@ class Patient:
                 self.speak(response)
 
 if __name__ == '__main__':
+    st.title('OSCE-GPT')
+    st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
+    st.caption('By [Eddie Guo](https://tig3r66.github.io/)')
     instructions = "You are a patient in a family medicine practice. Your name is Joanna. You are 35 years old female. You have a sore throat. You have a history of asthma and allergies. You are in for a general checkup to review your medications. You are currently on Advair and have well-controlled asthma. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
     patient = Patient(instructions)
     patient.main()
