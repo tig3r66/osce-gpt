@@ -4,7 +4,6 @@ openai
 openai-whisper
 pandas
 playsound
-portaudio
 PyAudio
 python-dotenv
 requests
