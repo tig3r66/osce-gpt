@@ -58,7 +58,7 @@ class Patient:
             self.tokens -= len(self.tokenizer(popped['content'])['input_ids'])
 
     def main(self):
-        st.write("Clinical scenario starting...")
+        st.write("Clinical scenario starting. You may begin speaking now.")
         while True:
             with sr.Microphone() as source:
                 source.pause_threshold = 0.8  # silence in seconds
