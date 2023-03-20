@@ -4,3 +4,6 @@
 osce.py
 speech.py
 .DS_Store
+*.wav
+*.mp3
+streamer.py
