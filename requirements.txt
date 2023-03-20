@@ -6,6 +6,7 @@ pandas
 playsound
 python-dotenv
 PyAudio
+pyttsx3
 requests
 SpeechRecognition
 streamlit
