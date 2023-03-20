@@ -11,11 +11,12 @@ cd osce-gpt
 
 ## Installation
 
-Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
 
 ```bash
 conda create -n osce python=3.8
 conda activate osce
+brew install portaudio
 pip install -r requirements.txt
 ```
 
