@@ -23,6 +23,8 @@ Next, create a .env file and add your OpenAI API key as such (see .env.example f
 
 ## Usage
 
+### Command-line tool
+
 Mac:
 ```python
 python3 test.py
@@ -31,6 +33,12 @@ python3 test.py
 Windows:
 ```python
 python test.py
+```
+
+### Streamlit Website
+
+```bash
+streamlit run website.py
 ```
 
 To practice with different clinical scenarios, change the `instructions` string in line 74 in test.py.
