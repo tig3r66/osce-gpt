@@ -66,9 +66,9 @@ class Patient:
                 audio = self.r.listen(source)
             text = self.transcribe(audio)
             if text:
-                st.write(f'Me: {text}')
                 if 'stop' in text.lower():
                     break
+                st.write(f'Me: {text}')
                 response = self.generate_response(text)
                 st.write(f"Patient: {response}")
                 self.speak(response)
