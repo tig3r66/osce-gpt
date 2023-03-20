@@ -59,7 +59,7 @@ class Patient:
             self.tokens -= len(self.tokenizer(popped['content'])['input_ids'])
 
     def main(self):
-        st.text("Clinical scenario initialized. You may begin speaking now.")
+        st.write("**Clinical scenario initialized.** You may begin speaking now. You can end the scenario by saying, '*stop*'.")
         while True:
             with sr.Microphone() as source:
                 source.pause_threshold = 0.8  # silence in seconds
@@ -67,18 +67,32 @@ class Patient:
             text = self.transcribe(audio)
             if text:
                 st.write(f'Me: {text}')
+                if 'stop' in text.lower():
+                    break
                 response = self.generate_response(text)
                 st.write(f"Patient: {response}")
                 self.speak(response)
+        st.markdown("---")
+        st.write('*Clinical scenario ended.* Thank you for practicing with OSCE-GPT! If you would like to practice again, please reload the page.')
+
+
+def disable():
+    st.session_state.disabled = True
+
 
 if __name__ == '__main__':
     st.title('OSCE-GPT')
     st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
     st.caption('By [Eddie Guo](https://tig3r66.github.io/)')
 
+    if "disabled" not in st.session_state:
+        st.session_state.disabled = False
+
     option = st.selectbox(
         "Which clinical scenario would you like to practice with?",
         ("Select one", "Asthma medications", "Chest pain"),
+        disabled=st.session_state.disabled,
+        on_change=disable,
     )
 
     instructions = [
