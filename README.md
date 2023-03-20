@@ -1,7 +1,5 @@
 # osce-gpt
 
-![alt text](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/streamlit_osce.png)
-
 ## Cloning the Repository
 
 To clone the repository, type in your command line/terminal:
@@ -10,6 +8,8 @@ To clone the repository, type in your command line/terminal:
 git clone https://github.com/tig3r66/MedLLM.git
 cd osce-gpt
 ```
+
+![alt text](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/streamlit_osce.png)
 
 ## Installation
 
