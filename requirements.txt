@@ -12,3 +12,4 @@ SpeechRecognition
 streamlit
 tqdm
 transformers
+watchdog
