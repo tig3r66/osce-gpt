@@ -101,20 +101,23 @@ class Patient:
         # feedback
         st.write('If you would like feedback, please click the button below.')
         if st.button('Get feedback', key='feedback'):
-            instructions = 'Based on the chat dialogue between me and the patient, please provide constructive feedback and criticism for me, NOT the patient. Comment on things that were done well, areas for improvement, and other remarks as necessary. For example, patient rapport, conversation organization, exploration of a patient\'s problem, involvement of the patient in care, explanation of reasoning, appropriate clinical reasoning, and other aspects of the interaction relevant to a patient interview. If relevant, suggest additional questions that I could have asked. Do not make anything up.'
-            temp_mem = [{'role': 'user', 'content': '\n'.join(st.session_state.history) + instructions}]
-            stream = self.generate_response_stream(temp_mem)
-            t = st.empty()
-            full_response = ''
-            for word in stream:
-                try:
-                    next_word = word['choices'][0]['delta']['content']
-                    full_response += next_word
-                    t.write(full_response)
-                except:
-                    pass
-                time.sleep(0.001)
-            self.speak(full_response)
+            if len(st.session_state.history) != 0:
+                instructions = 'Based on the chat dialogue between me and the patient, please provide constructive feedback and criticism for me, NOT the patient. Comment on things that were done well, areas for improvement, and other remarks as necessary. For example, patient rapport, conversation organization, exploration of a patient\'s problem, involvement of the patient in care, explanation of reasoning, appropriate clinical reasoning, and other aspects of the interaction relevant to a patient interview. If relevant, suggest additional questions that I could have asked. Do not make anything up.'
+                temp_mem = [{'role': 'user', 'content': '\n'.join(st.session_state.history) + instructions}]
+                stream = self.generate_response_stream(temp_mem)
+                t = st.empty()
+                full_response = ''
+                for word in stream:
+                    try:
+                        next_word = word['choices'][0]['delta']['content']
+                        full_response += next_word
+                        t.write(full_response)
+                    except:
+                        pass
+                    time.sleep(0.001)
+                self.speak(full_response)
+            else:
+                st.write('No conversation to provide feedback on.')
 
 
 def disable():
