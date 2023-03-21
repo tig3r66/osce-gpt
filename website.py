@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+TOKENIZER = GPT2TokenizerFast.from_pretrained("gpt2")
 
 
 class Patient:
@@ -128,6 +129,11 @@ def feedback():
 
 def update_history(prompt):
     st.session_state.history.append(prompt)
+    tokens = len(TOKENIZER('\n'.join(st.session_state.history))['input_ids'])
+    max_tokens = 4000
+    while tokens > max_tokens:
+        st.session_state.history.pop(0)
+
 
 if __name__ == '__main__':
     st.title('OSCE-GPT')
