@@ -7,3 +7,4 @@ speech.py
 *.wav
 *.mp3
 streamer.py
+history.pkl
