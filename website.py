@@ -131,12 +131,12 @@ if __name__ == '__main__':
     st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
     st.caption('By [Eddie Guo](https://tig3r66.github.io/)')
 
+    if 'history' not in st.session_state:
+        st.session_state.history = []
     if 'disabled' not in st.session_state:
         st.session_state.disabled = False
     if 'feedback_state' not in st.session_state:
         st.session_state.feedback_state = False
-    if 'history' not in st.session_state:
-        st.session_state.history = []
 
     option = st.selectbox(
         "Which clinical scenario would you like to practice with?",
