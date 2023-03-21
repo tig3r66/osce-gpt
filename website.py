@@ -49,12 +49,11 @@ class Patient:
         self.update_memory("assistant", response)
         return response
 
-    def generate_response_stream(self, prompt):
-        self.update_memory("user", prompt)
+    def generate_response_stream(self, memory):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             # model='gpt-4',
-            messages=self.memory,
+            messages=memory,
             temperature=0,
             top_p=1,
             stream=True)
@@ -91,13 +90,11 @@ class Patient:
                         self.speak(response)
                         self.history.append(f'Me: {text}')
                         self.history.append(f'Patient: {response}')
-                        with open('history.pkl', 'wb') as f:
-                            pickle.dump(self.history, f)
+                        update_history(f'Me: {text}')
+                        update_history(f'Patient: {response}')
         else:
-            with open('history.pkl', 'rb') as f:
-                self.history = pickle.load(f)
-                for i in self.history:
-                    st.write(i)
+            for i in st.session_state.history:
+                st.write(i)
 
         st.markdown("---")
         st.write('*Clinical scenario ended.* Thank you for practicing with OSCE-GPT! If you would like to practice again, please reload the page.')
@@ -105,7 +102,9 @@ class Patient:
         # feedback
         st.write('If you would like feedback, please click the button below.')
         if st.button('Get feedback', key='feedback'):
-            stream = self.generate_response_stream('Based on the chat dialogue between the user and patient, please provide constructive feedback and criticism for the user, NOT the patient. Comment on things that were done well, areas for improvement, and other remarks as necessary. For example, conversation flow, patient engagement, and other aspects of the interaction. Do not make anything up.')
+            instructions = 'Based on the chat dialogue between the user and patient, please provide constructive feedback and criticism for the user, NOT the patient. Comment on things that were done well, areas for improvement, and other remarks as necessary. For example, conversation flow, patient engagement, and other aspects of the interaction. Do not make anything up.'
+            temp_mem = [{'role': 'user', 'content': '\n'.join(st.session_state.history) + instructions}]
+            stream = self.generate_response_stream(temp_mem)
             t = st.empty()
             full_response = ''
             for word in stream:
@@ -125,6 +124,9 @@ def disable():
 def feedback():
     st.session_state.feedback_state = True
 
+def update_history(prompt):
+    st.session_state.history.append(prompt)
+
 if __name__ == '__main__':
     st.title('OSCE-GPT')
     st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
@@ -134,6 +136,8 @@ if __name__ == '__main__':
         st.session_state.disabled = False
     if 'feedback_state' not in st.session_state:
         st.session_state.feedback_state = False
+    if 'history' not in st.session_state:
+        st.session_state.history = []
 
     option = st.selectbox(
         "Which clinical scenario would you like to practice with?",
