@@ -5,7 +5,6 @@ import pyttsx3
 from transformers import GPT2TokenizerFast
 import speech_recognition as sr
 import time
-import pickle
 
 import gtts
 from playsound import playsound
