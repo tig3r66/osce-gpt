@@ -48,4 +48,4 @@ Here is a video of the app in action: [output.mp4](https://github.com/tig3r66/os
 streamlit run website.py
 ```
 
-To practice with different clinical scenarios, change the `instructions` string in `test.py` or `website.py`.
+To practice with different clinical scenarios, change the `instructions` string in [test.py](https://github.com/tig3r66/osce-gpt/blob/main/test.py) or [website.py](https://github.com/tig3r66/osce-gpt/blob/main/website.py).
