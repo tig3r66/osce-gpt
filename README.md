@@ -22,6 +22,8 @@ pip install -r requirements.txt
 
 Next, create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
+![alt text](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/streamlit_osce.png)
+
 ## Usage
 
 ### Command-line tool
@@ -42,6 +44,4 @@ python test.py
 streamlit run website.py
 ```
 
-![alt text](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/streamlit_osce.png)
-
-To practice with different clinical scenarios, change the `instructions` string in line 74 in test.py.
+To practice with different clinical scenarios, change the `instructions` string in `test.py` or `website.py`.
