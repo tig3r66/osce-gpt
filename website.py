@@ -5,6 +5,7 @@ import pyttsx3
 from transformers import GPT2TokenizerFast
 import speech_recognition as sr
 import time
+import pickle
 
 import gtts
 from playsound import playsound
@@ -27,6 +28,7 @@ class Patient:
         self.max_tokens = 4000
         self.r = sr.Recognizer()
         self.model = whisper.load_model("base")
+        self.history = []
 
     def transcribe(self, audio):
         try:
@@ -44,7 +46,18 @@ class Patient:
             messages=self.memory,
             temperature=0,
             top_p=1,)['choices'][0]['message']['content']
-        self.update_memory("system", response)
+        self.update_memory("assistant", response)
+        return response
+
+    def generate_response_stream(self, prompt):
+        self.update_memory("user", prompt)
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            # model='gpt-4',
+            messages=self.memory,
+            temperature=0,
+            top_p=1,
+            stream=True)
         return response
 
     def speak(self, text):
@@ -59,35 +72,68 @@ class Patient:
             self.tokens -= len(self.tokenizer(popped['content'])['input_ids'])
 
     def main(self):
-        st.write("**Clinical scenario initialized. You may begin speaking now.** You can end the scenario by saying, '*stop*'.")
+        st.write("**Clinical scenario initialized. You may begin speaking now.** You can end the scenario by clicking the *stop* button.")
+        stop_button = st.button('Stop', disabled=st.session_state.feedback_state, on_click=feedback)
         st.markdown("---")
-        while True:
+
+        if st.session_state.feedback_state is False:
             with sr.Microphone() as source:
                 source.pause_threshold = 1  # silence in seconds
-                audio = self.r.listen(source)
-            text = self.transcribe(audio)
-            if text:
-                if 'stop' in text.lower():
-                    break
-                st.write(f'Me: {text}')
-                response = self.generate_response(text)
-                st.write(f"Patient: {response}")
-                self.speak(response)
+                while True:
+                    if stop_button:
+                        break
+                    audio = self.r.listen(source)
+                    text = self.transcribe(audio)
+                    if text:
+                        st.write(f'Me: {text}')
+                        response = self.generate_response(text)
+                        st.write(f"Patient: {response}")
+                        self.speak(response)
+                        self.history.append(f'Me: {text}')
+                        self.history.append(f'Patient: {response}')
+                        with open('history.pkl', 'wb') as f:
+                            pickle.dump(self.history, f)
+        else:
+            with open('history.pkl', 'rb') as f:
+                self.history = pickle.load(f)
+                for i in self.history:
+                    st.write(i)
+
         st.markdown("---")
         st.write('*Clinical scenario ended.* Thank you for practicing with OSCE-GPT! If you would like to practice again, please reload the page.')
+
+        # feedback
+        st.write('If you would like feedback, please click the button below.')
+        if st.button('Get feedback', key='feedback'):
+            stream = self.generate_response_stream('Based on the chat dialogue between the user and patient, please provide constructive feedback and criticism for the user, NOT the patient. Comment on things that were done well, areas for improvement, and other remarks as necessary. For example, conversation flow, patient engagement, and other aspects of the interaction. Do not make anything up.')
+            t = st.empty()
+            full_response = ''
+            for word in stream:
+                try:
+                    next_word = word['choices'][0]['delta']['content']
+                    full_response += next_word
+                    t.write(full_response)
+                except:
+                    pass
+                time.sleep(0.001)
+            self.speak(full_response)
 
 
 def disable():
     st.session_state.disabled = True
 
+def feedback():
+    st.session_state.feedback_state = True
 
 if __name__ == '__main__':
     st.title('OSCE-GPT')
     st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
     st.caption('By [Eddie Guo](https://tig3r66.github.io/)')
 
-    if "disabled" not in st.session_state:
+    if 'disabled' not in st.session_state:
         st.session_state.disabled = False
+    if 'feedback_state' not in st.session_state:
+        st.session_state.feedback_state = False
 
     option = st.selectbox(
         "Which clinical scenario would you like to practice with?",
@@ -98,7 +144,7 @@ if __name__ == '__main__':
 
     instructions = [
         "You are a patient in a family medicine practice. Your name is Joanna. You are 35 year old female. You have a sore throat. You have a history of asthma and allergies. You are in for a general checkup to review your medications. You are currently on Advair and have well-controlled asthma. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers.",
-        "You are a patient at the emergency department. Your name is Emma. You are 68 year old female. You had crushing chest pain that radiated down your left arm. This occurred about an hour ago. You have diabetes and are obese. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
+        "You are a patient at the emergency department. Your name is Emma. You are 68 year old female. You had crushing chest pain that radiated down your left arm. This occurred about an hour ago. You have diabetes and are obese. Please answer questions based on a presentation of acute myocardial infarction, likely STEMI. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
         ]
 
     while option == "Select one":
