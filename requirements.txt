@@ -6,6 +6,7 @@ pandas
 playsound
 python-dotenv
 PyAudio
+pygobject
 pyttsx3
 requests
 SpeechRecognition
