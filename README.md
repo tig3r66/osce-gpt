@@ -26,16 +26,16 @@ cd osce-gpt
 ![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png) -->
 
 <!-- ### Advanced Usage -->
+1. Ensure that you have [Homebrew](https://brew.sh/), [Git](https://git-scm.com/downloads), and [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
-1. Clone the repository and set your working directory into the cloned repository by typing in your command line/terminal:
+2. Clone the repository and set your working directory into the cloned repository by typing in your command line/terminal:
 
 ```
 git clone https://github.com/tig3r66/MedLLM.git
 cd osce-gpt
 ```
 
-2. Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
-3. Create and activate the Conda environment by typing in your command line/terminal:
+1. Create and activate the Conda environment by typing in your command line/terminal:
 
 ```bash
 conda create -n osce python=3.8
