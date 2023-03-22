@@ -54,7 +54,7 @@ pip install -r requirements.txt
 5. Run the Streamlit website by typing in your command line/terminal:
 
 ```bash
-streamlit run website.py
+streamlit run streamlit_app.py
 ```
 
 ![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png)
