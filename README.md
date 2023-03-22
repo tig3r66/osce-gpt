@@ -1,4 +1,4 @@
-# osce-gpt
+# OSCE-GPT
 
 This is a natural language processing app that offers communications practice with patients across various clinical scenarios. Upon finishing the clinical scenario, the app provides AI-generated feedback and AI-generated SOAP notes at the user's request. This app is powered by Streamlit, OpenAI Whisper API, Google text-to-speech API, and GPT.
 
