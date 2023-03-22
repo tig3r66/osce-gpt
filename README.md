@@ -16,7 +16,7 @@ cd osce-gpt
 ### Docker (Recommended)
 
 1. Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
-2. Pull the osce-gpt image from Docker Hub in your terminal/command-line:
+2. Pull the osce-gpt image from Docker Hub in your terminal/command line:
 
 ```bash
 docker pull eddieguo/osce-gpt
