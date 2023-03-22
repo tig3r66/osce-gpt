@@ -42,15 +42,13 @@ Next, create a `.env` file and add your OpenAI API key as such (see `.env.exampl
 
 To run the command-line app, type in your command line/terminal:
 
-```bash
-
 Mac:
-```python
+```bash
 python3 test.py
 ```
 
 Windows:
-```python
+```bash
 python test.py
 ```
 
