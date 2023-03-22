@@ -28,7 +28,7 @@ cd osce-gpt
 <!-- ### Advanced Usage -->
 1. Ensure that you have [Homebrew](https://brew.sh/), [Git](https://git-scm.com/downloads), and [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
-2. Clone the repository and set your working directory into the cloned repository by typing in your command line/terminal:
+2. Clone this repository and set your working directory to `osce-gpt` by typing in your command line/terminal:
 
 ```
 git clone https://github.com/tig3r66/MedLLM.git
