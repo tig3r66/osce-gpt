@@ -12,7 +12,7 @@ from playsound import playsound
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-openai.api_key = st.secrets("OPENAI_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 TOKENIZER = GPT2TokenizerFast.from_pretrained("gpt2")
 
 
