@@ -13,6 +13,25 @@ cd osce-gpt
 
 ## Installation
 
+### Docker (Recommended)
+
+1. Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
+2. Pull the osce-gpt image from Docker Hub:
+
+```bash
+docker pull eddieguo/osce-gpt
+```
+
+3. Run the downloaded Docker image and access the application:
+
+```bash
+docker run eddieguo/osce-gpt
+```
+
+4. Open your browser and go to `http://localhost:8501/` to access the app.
+
+### Advanced Usage
+
 Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
 
 ```bash
@@ -24,11 +43,11 @@ pip install -r requirements.txt
 
 Next, create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
-![Screenshot of the OSCE-GPT app](https://github.com/tig3r66/osce-gpt/blob/main/example_session/streamlit_osce.png)
+#### Command-Line App
 
-## Usage
+To run the command-line app, type in your command line/terminal:
 
-### Command-line tool
+```bash
 
 Mac:
 ```python
@@ -40,9 +59,9 @@ Windows:
 python test.py
 ```
 
-### Streamlit Website
+#### Streamlit Website
 
-Here is a video of the app in action: [output.webm](https://github.com/tig3r66/osce-gpt/blob/main/example_session/Example%202/output.webm).
+To run the Streamlit website, type in your command line/terminal:
 
 ```bash
 streamlit run website.py
