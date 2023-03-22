@@ -35,7 +35,7 @@ git clone https://github.com/tig3r66/MedLLM.git
 cd osce-gpt
 ```
 
-1. Create and activate the Conda environment by typing in your command line/terminal:
+3. Create and activate the Conda environment by typing in your command line/terminal:
 
 ```bash
 conda create -n osce python=3.8
