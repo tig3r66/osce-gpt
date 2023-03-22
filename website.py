@@ -41,8 +41,8 @@ class Patient:
     def generate_response(self, prompt):
         self.update_memory("user", prompt)
         response = openai.ChatCompletion.create(
-            # model="gpt-3.5-turbo",
-            model='gpt-4',
+            model="gpt-3.5-turbo",
+            # model='gpt-4',
             messages=self.memory,
             temperature=0.5,
             top_p=1,)['choices'][0]['message']['content']
@@ -130,7 +130,7 @@ def feedback():
 def update_history(prompt):
     st.session_state.history.append(prompt)
     tokens = len(TOKENIZER('\n'.join(st.session_state.history))['input_ids'])
-    max_tokens = 4000
+    max_tokens = 8000
     while tokens > max_tokens:
         st.session_state.history.pop(0)
 
@@ -149,14 +149,15 @@ if __name__ == '__main__':
 
     option = st.selectbox(
         "Which clinical scenario would you like to practice with?",
-        ("Select one", "Asthma medications", "Chest pain"),
+        ("Select one", "Asthma medications", "Chest pain", "Breaking bad news"),
         disabled=st.session_state.disabled,
         on_change=disable,
     )
 
     instructions = [
         "You are a patient in a family medicine practice. Your name is Joanna. You are 35 year old female. You have a sore throat. You have a history of asthma and allergies. You are in for a general checkup to review your medications. You are currently on Advair and have well-controlled asthma. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers.",
-        "You are a patient at the emergency department. Your name is Emma. You are 68 year old female. You had crushing chest pain that radiated down your left arm. This occurred about an hour ago. You have diabetes and are obese. Please answer questions based on a presentation of acute myocardial infarction, likely STEMI. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
+        "You are a patient at the emergency department. Your name is Emma. You are 68 year old female. You had crushing chest pain that radiated down your left arm. This occurred about an hour ago. You have diabetes and are obese. Please answer questions based on a presentation of acute myocardial infarction, likely STEMI. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers.",
+        "You are a 54 year old woman named Angela who has had headaches, seizures, and memory loss. The MRI scan showed a rapidly growing brain tumour. The pathology report of the biopsy showed the tumour is glioblastoma multiforme. You do not know this diagnosis. The doctor will explain the pathology report to you.  Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
         ]
 
     while option == "Select one":
@@ -166,6 +167,10 @@ if __name__ == '__main__':
         prompt = instructions[0]
     elif option == "Chest pain":
         prompt = instructions[1]
+    elif option == "Breaking bad news":
+        prompt = instructions[2]
+        st.write("You are seeing a 54 year old woman named Angela who has had headaches, seizures, and memory loss. The MRI scan showed a rapidly growing brain tumour. The pathology report of the biopsy showed the tumour is glioblastoma multiforme. Please deliver this news to the patient.")
+        time.sleep(3)
 
     st.write(f'You selected: {option.lower()}')
     patient = Patient(prompt)
