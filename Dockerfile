@@ -2,8 +2,7 @@ FROM python:3.8
 WORKDIR /app
 RUN apt-get update
 RUN apt-get install libasound-dev libportaudio2 libportaudiocpp0 portaudio19-dev espeak pulseaudio -y
-RUN pip install pyaudio
-COPY requirements.txt ./requirements.txt
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY streamlit_app.py .
 EXPOSE 7501
