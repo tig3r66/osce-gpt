@@ -42,7 +42,7 @@ python test.py
 
 ### Streamlit Website
 
-Here is a video of the app in action: [output.mp4](https://github.com/tig3r66/osce-gpt/blob/main/example_session/Example%202/output.webm).
+Here is a video of the app in action: [output.webm](https://github.com/tig3r66/osce-gpt/blob/main/example_session/Example%202/output.webm).
 
 ```bash
 streamlit run website.py
