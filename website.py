@@ -127,7 +127,7 @@ class Patient:
                 st.write('No conversation to provide feedback on.')
         if soap_button:
             if len(st.session_state.history) != 0:
-                instructions = 'Based on the chat dialogue between me and the patient, please write a SOAP note. Use bullet points for each item. Do not make anything up.'
+                instructions = 'Based on the chat dialogue between me and the patient, please write a SOAP note. Use bullet points for each item. Use medical abbreviations and jargon as appropriate (e.g., PO, BID, NPO). Do not make anything up.'
                 temp_mem = [{'role': 'user', 'content': '\n'.join(st.session_state.history) + instructions}]
                 stream = self.generate_response_stream(temp_mem)
                 t = st.empty()
