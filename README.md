@@ -27,26 +27,31 @@ cd osce-gpt
 
 <!-- ### Advanced Usage -->
 
-1. Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
-2. Create and activate the Conda environment:
+1. Clone the repository and set your working directory into the cloned repository by typing in your command line/terminal:
+
+```
+git clone https://github.com/tig3r66/MedLLM.git
+cd osce-gpt
+```
+
+2. Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
+3. Create and activate the Conda environment by typing in your command line/terminal:
 
 ```bash
 conda create -n osce python=3.8
 conda activate osce
 ```
 
-3. Install the dependencies:
+4. Install the dependencies  by typing in your command line/terminal:
 
 ```bash
 brew install portaudio
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+5. Create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
-#### Streamlit Website
-
-To run the Streamlit website, type in your command line/terminal:
+5. Run the Streamlit website by typing in your command line/terminal:
 
 ```bash
 streamlit run website.py
