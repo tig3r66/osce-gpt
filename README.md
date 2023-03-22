@@ -28,6 +28,8 @@ docker pull eddieguo/osce-gpt
 docker run eddieguo/osce-gpt
 ```
 
+![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png)
+
 4. Open your browser and go to `http://localhost:8501/` to access the app.
 
 ### Advanced Usage
