@@ -2,7 +2,9 @@
 
 This is a natural language processing app that offers communications practice with patients across various clinical scenarios. Upon finishing the clinical scenario, the app provides AI-generated feedback and AI-generated SOAP notes at the user's request. This app is powered by Streamlit, OpenAI Whisper API, Google text-to-speech API, and GPT.
 
-## Cloning the Repository
+## Installation
+
+### STEP 1: Cloning the Repository
 
 To clone the repository, type in your command line/terminal:
 
@@ -11,9 +13,9 @@ git clone https://github.com/tig3r66/MedLLM.git
 cd osce-gpt
 ```
 
-## Installation
+Next, create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
-### Docker (Recommended)
+### STEP 2: Docker (Recommended)
 
 1. Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
 2. Build the Docker image by running `docker build -t osceapp:latest .`
