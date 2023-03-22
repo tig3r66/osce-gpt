@@ -27,16 +27,34 @@ cd osce-gpt
 
 <!-- ### Advanced Usage -->
 
-Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
+1. Ensure that you have the [Conda command line tool](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) and [Homebrew](https://brew.sh/).
+2. Create and activate the Conda environment:
 
 ```bash
 conda create -n osce python=3.8
 conda activate osce
+```
+
+3. Install the dependencies:
+
+```bash
 brew install portaudio
 pip install -r requirements.txt
 ```
 
-Next, create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+4. Create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
+
+#### Streamlit Website
+
+To run the Streamlit website, type in your command line/terminal:
+
+```bash
+streamlit run website.py
+```
+
+![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png)
+
+To practice with different clinical scenarios, change the `instructions` string in [test.py](https://github.com/tig3r66/osce-gpt/blob/main/test.py) or [website.py](https://github.com/tig3r66/osce-gpt/blob/main/website.py).
 
 #### Command-Line App
 
@@ -51,15 +69,3 @@ Windows:
 ```bash
 python test.py
 ```
-
-#### Streamlit Website
-
-To run the Streamlit website, type in your command line/terminal:
-
-```bash
-streamlit run website.py
-```
-
-![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png)
-
-To practice with different clinical scenarios, change the `instructions` string in [test.py](https://github.com/tig3r66/osce-gpt/blob/main/test.py) or [website.py](https://github.com/tig3r66/osce-gpt/blob/main/website.py).
