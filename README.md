@@ -17,7 +17,7 @@ cd osce-gpt
 
 1. Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
 2. Build the Docker image by running `docker build -t osceapp:latest .`
-3. Creat the Docker container by running `docker run -p 7501:7501 osceapp:latest`
+3. Creat the Docker container by running `docker run -p 7501:7501 osceapp:latest .`
 4. Open your browser and go to `http://0.0.0.0:7501` to access the app.
 
 ![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png)
