@@ -15,7 +15,7 @@ cd osce-gpt
 
 2. Next, create a `.env` file and add your OpenAI API key as such (see `.env.example` for an example). You can get an API by following [these instructions](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key).
 
-### STEP 2: Docker (Recommended)
+### STEP 2: Docker
 
 1. Ensure you have [Docker](https://docs.docker.com/get-docker/) installed.
 2. Build the Docker image by running `docker build -t osceapp:latest .`
