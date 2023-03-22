@@ -99,11 +99,35 @@ class Patient:
         st.markdown("---")
         st.write('*Clinical scenario ended.* Thank you for practicing with OSCE-GPT! If you would like to practice again, please reload the page.')
 
-        # feedback
-        st.write('If you would like feedback, please click the button below.')
-        if st.button('Get feedback', key='feedback'):
+        # feedback and SOAP note
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write('If you would like feedback, please click the button below.')
+            feedback_button = st.button('Get feedback', key='feedback')
+        with col2:
+            st.write('If you would like to create a SOAP note from this conversation, please click the button below.')
+            soap_button = st.button('Get SOAP note', key='soap_note')
+        if feedback_button:
             if len(st.session_state.history) != 0:
                 instructions = 'Based on the chat dialogue between me and the patient, please provide constructive feedback and criticism for me, NOT the patient. Comment on things that were done well, areas for improvement, and other remarks as necessary. For example, patient rapport, conversation organization, exploration of a patient\'s problem, involvement of the patient in care, explanation of reasoning, appropriate clinical reasoning, and other aspects of the interaction relevant to a patient interview. If relevant, suggest additional questions that I could have asked. Do not make anything up.'
+                temp_mem = [{'role': 'user', 'content': '\n'.join(st.session_state.history) + instructions}]
+                stream = self.generate_response_stream(temp_mem)
+                t = st.empty()
+                full_response = ''
+                for word in stream:
+                    try:
+                        next_word = word['choices'][0]['delta']['content']
+                        full_response += next_word
+                        t.write(full_response)
+                    except:
+                        pass
+                    time.sleep(0.001)
+                self.speak(full_response)
+            else:
+                st.write('No conversation to provide feedback on.')
+        if soap_button:
+            if len(st.session_state.history) != 0:
+                instructions = 'Based on the chat dialogue between me and the patient, please write a SOAP note. Use bullet points for each item. Do not make anything up.'
                 temp_mem = [{'role': 'user', 'content': '\n'.join(st.session_state.history) + instructions}]
                 stream = self.generate_response_stream(temp_mem)
                 t = st.empty()
