@@ -60,4 +60,6 @@ To run the Streamlit website, type in your command line/terminal:
 streamlit run website.py
 ```
 
+![Screenshot of the OSCE-GPT app](https://raw.githubusercontent.com/tig3r66/osce-gpt/main/example_session/streamlit_osce.png)
+
 To practice with different clinical scenarios, change the `instructions` string in [test.py](https://github.com/tig3r66/osce-gpt/blob/main/test.py) or [website.py](https://github.com/tig3r66/osce-gpt/blob/main/website.py).
