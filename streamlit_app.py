@@ -45,7 +45,6 @@ class Patient:
             file = 'pipe:'
         else:
             inp = None
-
         try:
             out, _ = (
                 ffmpeg.input(file, threads=0)
@@ -54,7 +53,6 @@ class Patient:
             )
         except ffmpeg.Error as e:
             raise RuntimeError(f"Failed to load audio: {e.stderr.decode()}") from e
-
         return np.frombuffer(out, np.int16).flatten().astype(np.float32) / 32768.0
 
     def transcribe(self, audio):
