@@ -1,27 +1,30 @@
 import streamlit as st
 import openai
-import whisper
-import pyttsx3
 from transformers import GPT2TokenizerFast
+import whisper
 import speech_recognition as sr
 import time
 
 import gtts
-from playsound import playsound
+# from playsound import playsound
+import io
+from pydub import AudioSegment
+from pydub.playback import play
 
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from dotenv import load_dotenv
 load_dotenv()
-
 openai.api_key = os.getenv("OPENAI_API_KEY")
 TOKENIZER = GPT2TokenizerFast.from_pretrained("gpt2")
+
+import ffmpeg
+import numpy as np
 
 
 class Patient:
 
     def __init__(self, instructions):
-        self.engine = pyttsx3.init()
         self.memory = [{"role": "system", "content": instructions}]
         self.tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         self.tokens = len(self.tokenizer(instructions)['input_ids'])
@@ -29,12 +32,30 @@ class Patient:
         self.r = sr.Recognizer()
         self.model = whisper.load_model("base")
         self.history = []
+        with sr.Microphone() as source:
+            self.r.adjust_for_ambient_noise(source, duration=2)
+
+    def load_audio(self, file, sr=16000):
+        if isinstance(file, bytes):
+            inp = file
+            file = 'pipe:'
+        else:
+            inp = None
+
+        try:
+            out, _ = (
+                ffmpeg.input(file, threads=0)
+                .output("-", format="s16le", acodec="pcm_s16le", ac=1, ar=sr)
+                .run(cmd="ffmpeg", capture_stdout=True, capture_stderr=True, input=inp)
+            )
+        except ffmpeg.Error as e:
+            raise RuntimeError(f"Failed to load audio: {e.stderr.decode()}") from e
+
+        return np.frombuffer(out, np.int16).flatten().astype(np.float32) / 32768.0
 
     def transcribe(self, audio):
         try:
-            with open("audio.wav", "wb") as f:
-                f.write(audio.get_wav_data())
-            return self.model.transcribe('audio.wav', language='en', fp16=False)['text']
+            return self.model.transcribe(self.load_audio(audio.get_wav_data()), language='en', fp16=False)['text']
         except:
             return None
 
@@ -60,8 +81,10 @@ class Patient:
         return response
 
     def speak(self, text):
-        gtts.gTTS(text).save("output.mp3")
-        playsound("output.mp3")
+        audio = io.BytesIO()
+        gtts.gTTS(text=text).write_to_fp(audio)
+        audio.seek(0)
+        play(AudioSegment.from_file(audio, format="mp3"))
 
     def update_memory(self, role, content):
         self.memory.append({"role": role, "content": content})
