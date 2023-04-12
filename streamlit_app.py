@@ -1,24 +1,29 @@
 import streamlit as st
+import time
+import numpy as np
+
+# OpenAI stuff
 import openai
 from transformers import GPT2TokenizerFast
+openai.api_key = os.getenv("OPENAI_API_KEY")
+TOKENIZER = GPT2TokenizerFast.from_pretrained("gpt2")
+
+# audio detection & transcription
 import whisper
 import speech_recognition as sr
-import time
 
-import gtts
+# text to speech
 import io
+import gtts
+import ffmpeg
 from pydub import AudioSegment
 from pydub.playback import play
 
+# environment variables
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from dotenv import load_dotenv
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-TOKENIZER = GPT2TokenizerFast.from_pretrained("gpt2")
-
-import ffmpeg
-import numpy as np
 
 
 class Patient:
