@@ -6,7 +6,6 @@ import speech_recognition as sr
 import time
 
 import gtts
-# from playsound import playsound
 import io
 from pydub import AudioSegment
 from pydub.playback import play

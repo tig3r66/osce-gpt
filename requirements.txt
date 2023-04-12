@@ -1,15 +1,14 @@
+ffmpeg
 gTTS
 numpy
 openai
 openai-whisper
 pandas
-playsound
 python-dotenv
 PyAudio
-pyttsx3
+pydub
 requests
 SpeechRecognition
 streamlit
-tqdm
 transformers
 watchdog
