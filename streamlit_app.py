@@ -5,7 +5,6 @@ import numpy as np
 # OpenAI stuff
 import openai
 from transformers import GPT2TokenizerFast
-openai.api_key = os.getenv("OPENAI_API_KEY")
 TOKENIZER = GPT2TokenizerFast.from_pretrained("gpt2")
 
 # audio detection & transcription
@@ -24,6 +23,7 @@ import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from dotenv import load_dotenv
 load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 class Patient:
