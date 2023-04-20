@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import numpy as np
+import json
 
 # OpenAI stuff
 import openai
@@ -26,9 +27,14 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
+with open('cases.json') as f:
+    CASES = json.load(f)
+
+
 class Patient:
 
-    def __init__(self, instructions):
+    def __init__(self, instructions, option=None):
+        self.option = option.strip().lower()
         self.memory = [{"role": "system", "content": instructions}]
         self.tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         self.tokens = len(self.tokenizer(instructions)['input_ids'])
@@ -36,6 +42,7 @@ class Patient:
         self.r = sr.Recognizer()
         self.model = whisper.load_model("base")
         self.history = []
+        self.images = CASES[self.option.strip().lower()][0]['images'] if len(CASES[self.option.strip().lower()][0]['images']) > 0 else None
         with sr.Microphone() as source:
             self.r.adjust_for_ambient_noise(source, duration=2)
 
@@ -111,12 +118,12 @@ class Patient:
                     if text:
                         st.write(f'Me: {text}')
                         response = self.generate_response(text)
-                        st.write(f"Patient: {response}")
-                        self.speak(response)
                         self.history.append(f'Me: {text}')
                         self.history.append(f'Patient: {response}')
                         update_history(f'Me: {text}')
                         update_history(f'Patient: {response}')
+                        st.write(f"Patient: {response}")
+                        self.speak(response)
         else:
             for i in st.session_state.history:
                 st.write(i)
@@ -147,7 +154,6 @@ class Patient:
                     except:
                         pass
                     time.sleep(0.001)
-                self.speak(full_response)
             else:
                 st.write('No conversation to provide feedback on.')
         if soap_button:
@@ -165,7 +171,6 @@ class Patient:
                     except:
                         pass
                     time.sleep(0.001)
-                self.speak(full_response)
             else:
                 st.write('No conversation to provide feedback on.')
 
@@ -183,8 +188,24 @@ def update_history(prompt):
     while tokens > max_tokens:
         st.session_state.history.pop(0)
 
+def create_prompt(cases, option):
+    instructions = f"Instructions: You are a patient talking to a physician. Use the provided context to answer the physician. Do not give too much away unless asked. You may use creativity in your answers.\n\nContext:{cases[option.strip().lower()][0]['case_info']}"
 
-if __name__ == '__main__':
+    images = cases[option.strip().lower()][0]['images']
+    if len(images) > 0:
+        instructions += "\nPlease write the image files in parentheses if you would like to use them in your questions. If you've already used an image, no need to include it in parentheses."
+        image_prompt = '\n\nImages:\n'
+        for i in range(len(images)):
+            image_prompt += cases[option.strip().lower()][0]['images'][i]
+            image_prompt += ': '
+            image_prompt += cases[option.strip().lower()][0]['img_descriptions'][i]
+            image_prompt += '\n'
+    else:
+        image_prompt = ''
+
+    return instructions + image_prompt
+
+def main():
     st.title('OSCE-GPT')
     st.caption('Powered by Whisper, GPT-4, and Google text-to-speech.')
     st.caption('By [Eddie Guo](https://tig3r66.github.io/)')
@@ -198,29 +219,24 @@ if __name__ == '__main__':
 
     option = st.selectbox(
         "Which clinical scenario would you like to practice with?",
-        ("Select one", "Asthma medications", "Chest pain", "Breaking bad news"),
+        ("Select one", *list(CASES.keys())),
         disabled=st.session_state.disabled,
         on_change=disable,
     )
 
-    instructions = [
-        "You are a patient in a family medicine practice. Your name is Joanna. You are 35 year old female. You have a sore throat. You have a history of asthma and allergies. You are in for a general checkup to review your medications. You are currently on Advair and have well-controlled asthma. Please answer questions based on a presentation of well controlled asthma. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers.",
-        "You are a patient at the emergency department. Your name is Emma. You are 68 year old female. You had crushing chest pain that radiated down your left arm. This occurred about an hour ago. You have diabetes and are obese. Please answer questions based on a presentation of acute myocardial infarction, likely STEMI. Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers.",
-        "You are a 54 year old woman named Angela who has had headaches, seizures, and memory loss. The MRI scan showed a rapidly growing brain tumour. The pathology report of the biopsy showed the tumour is glioblastoma multiforme. You do not know this diagnosis. The doctor will explain the pathology report to you.  Please answer questions like a patient. Do not give too much away unless asked. You may use creativity in your answers."
-        ]
-
     while option == "Select one":
         time.sleep(1)
 
-    if option == "Asthma medications":
-        prompt = instructions[0]
-    elif option == "Chest pain":
-        prompt = instructions[1]
-    elif option == "Breaking bad news":
-        prompt = instructions[2]
+    if option.lower() == "breaking bad news":
         st.write("You are seeing a 54 year old woman named Angela who has had headaches, seizures, and memory loss. The MRI scan showed a rapidly growing brain tumour. The pathology report of the biopsy showed the tumour is glioblastoma multiforme. Please deliver this news to the patient.")
         time.sleep(3)
 
     st.write(f'You selected: {option.lower()}')
-    patient = Patient(prompt)
+    prompt = create_prompt(CASES, option)
+    patient = Patient(prompt, option)
     patient.main()
+
+
+
+if __name__ == '__main__':
+    main()
